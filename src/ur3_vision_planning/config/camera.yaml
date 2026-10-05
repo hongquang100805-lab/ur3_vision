@@ -1,0 +1,27 @@
+# Gazebo camera convention: +X forward, +Y left, +Z up.
+# Pitch +pi/2 points straight down. Yaw pi/2 aligns image width with table Y.
+camera:
+  model_name: overhead_camera
+  parent_frame: world
+  link_frame: camera_link
+  optical_frame: camera_optical_frame
+  position: [0.38, 0.0, 1.15]
+  rpy: [0.0, 1.5707963267948966, 1.5707963267948966]
+  optical_rpy: [-1.5707963267948966, 0.0, -1.5707963267948966]
+  sensor_type: rgbd_camera
+  render_engine: ogre2
+  width: 640
+  height: 480
+  horizontal_fov: 1.0471975511965976
+  update_rate: 15.0
+  near_clip: 0.05
+  far_clip: 3.0
+  gz_topic: /camera
+  image_topic: /camera/image_raw
+  info_topic: /camera/camera_info
+  depth_topic: /camera/depth/image_raw
+# For a later RGB-only planar projection: intersect the calibrated optical
+# ray from CameraInfo K, transformed by TF, with this plane (world frame).
+# Table plane height comes from scene.yaml: center.z + size.z/2 = 0.200 m.
+# Cube top plane is table height + cube_size.z = 0.240 m.
+# No perception or Gazebo model-pose data is used to form camera images.

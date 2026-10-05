@@ -1,0 +1,31 @@
+environment:
+  topic: /vision/environment_state
+  target_frame: base_link
+  receive_timeout_s: 1.5
+  measurement_timeout_s: 1.5
+  object_timeout_s: 1.0
+  wait_timeout_s: 20.0
+safety:
+  object_distance_m: 0.08
+  zone_edge_clearance_m: 0.02
+  table_edge_margin_m: 0.01
+  min_base_distance_m: 0.25
+  max_base_distance_m: 0.52
+  support_z_tolerance_m: 0.005
+# Cube-centre coordinates, not tool0 coordinates. Table top = 0.200 m.
+# Slots are separate from spawn positions and from zone markers.
+# Ordered candidates, NOT guaranteed IK solutions. Camera filtering runs first;
+# MoveIt then checks pre/final-place with the displaced cube virtually attached.
+temporary_positions:
+  temporary_1: {frame_id: base_link, x: 0.43, y: -0.23, z: 0.22}
+  temporary_2: {frame_id: base_link, x: 0.47, y: 0.0, z: 0.22}
+  temporary_3: {frame_id: base_link, x: 0.40, y: -0.24, z: 0.22}
+  temporary_4: {frame_id: base_link, x: 0.35, y: -0.27, z: 0.22}
+  temporary_5: {frame_id: base_link, x: 0.35, y: 0.27, z: 0.22}
+  temporary_6: {frame_id: base_link, x: 0.32, y: -0.27, z: 0.22}
+  temporary_7: {frame_id: base_link, x: 0.32, y: 0.27, z: 0.22}
+  temporary_8: {frame_id: base_link, x: 0.28, y: -0.27, z: 0.22}
+  temporary_9: {frame_id: base_link, x: 0.28, y: 0.27, z: 0.22}
+  temporary_10: {frame_id: base_link, x: 0.38, y: -0.25, z: 0.22}
+  temporary_11: {frame_id: base_link, x: 0.38, y: 0.25, z: 0.22}
+  temporary_12: {frame_id: base_link, x: 0.49, y: 0.0, z: 0.22}

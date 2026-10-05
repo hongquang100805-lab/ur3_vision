@@ -1,0 +1,65 @@
+topics:
+  image: /camera/image_raw
+  camera_info: /camera/camera_info
+  depth: /camera/depth/image_raw
+  debug: /vision/debug_image
+  state: /vision/environment_state
+target_frame: base_link
+image_encoding: bgr8
+block_size: [0.04, 0.04, 0.04]
+# OpenCV hue is 0..179. Red wraps at hue 0.
+hsv:
+  red_cube:
+    - {lower: [0, 110, 70], upper: [10, 255, 255]}
+    - {lower: [170, 110, 70], upper: [179, 255, 255]}
+  yellow_cube:
+    - {lower: [20, 110, 70], upper: [38, 255, 255]}
+  blue_cube:
+    - {lower: [95, 110, 70], upper: [125, 255, 255]}
+  green_cube:
+    - {lower: [40, 110, 70], upper: [85, 255, 255]}
+  purple_cube:
+    - {lower: [130, 110, 70], upper: [165, 255, 255]}
+contours:
+  min_area_px: 200.0
+  max_area_px: 1400.0
+  min_aspect: 0.65
+  max_aspect: 1.55
+  min_fill_ratio: 0.65
+  physical_size_ratio: [0.65, 1.45]
+  morphology_kernel: 3
+  open_iterations: 1
+  close_iterations: 1
+# This is a work-area ROI, not a list of configured object spawn positions.
+# Limits are relative to table edges from scene.yaml; top-height filtering
+# removes zone pads before finding contours, including same-colour overlays.
+roi:
+  table_margin_m: 0.01
+  block_top_above_table_m: [0.015, 0.30]
+depth:
+  min_m: 0.05
+  max_m: 3.0
+  patch_radius_px: 2
+  min_valid_samples: 5
+  unit_scale_16uc1: 0.001
+  max_rgb_depth_delta_s: 0.08
+  queue_length: 8
+  timeout_s: 1.0
+temporal:
+  history_length: 5
+  object_timeout_s: 1.0
+  image_timeout_s: 1.0
+  max_measurement_age_s: 1.0
+  publish_rate_hz: 5.0
+  tf_timeout_s: 0.05
+  log_interval_s: 5.0
+zones:
+  footprint_margin_m: 0.001
+  support_z_tolerance_m: 0.015
+debug:
+  font_scale: 0.38
+  line_thickness: 1
+  text_line_spacing_px: 14
+  label_panel_x_px: 425
+  label_panel_y_px: 80
+  object_spacing_px: 65
