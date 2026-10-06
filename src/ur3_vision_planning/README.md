@@ -3,47 +3,6 @@
 **Sinh viên:** Lê Hồng Quang  
 **MSSV:** 23020757
 
-## RViz: một cửa sổ cho scene và RGB-D
-
-Launch Bài 03 tắt cả hai RViz được launch UR control/MoveIt tự mở, rồi chỉ mở
-`vision_rviz` với `rviz/vision.rviz`. Dừng launch cũ và đóng cửa sổ cũ trước
-khi relaunch. `launch_rviz:=false` vẫn tắt toàn bộ RViz của launch này.
-Cờ RViz của launch cha được lưu thành giá trị riêng trước khi include UR
-với `launch_rviz=false`. Không dùng scoped group: các callback trễ khởi động
-MoveIt phải còn truy cập được ur_type và những cấu hình UR khác.
-
-```bash
-cd ~/ur_ws
-source /opt/ros/jazzy/setup.bash
-colcon build --packages-select ur3_vision_planning --symlink-install
-source install/setup.bash
-ros2 launch ur3_vision_planning llm_robot.launch.py scenario:=zone_b_occupied
-```
-
-Cửa sổ gồm robot/gripper từ TF, bàn, 5 cube và các nhãn Zone A - Yellow,
-Zone B - Blue, Zone C - Red, camera body và frustum CameraInfo. Hai dock
-`RGB camera`, `Depth camera` hiển thị ảnh trực tiếp. `RGB-D point cloud`
-tái dựng điểm màu từ depth/RGB/CameraInfo bằng plugin DepthCloud có sẵn,
-QoS best-effort. Không cần mở rqt_image_view riêng.
-
-Chân bàn RViz gồm 4 marker, khớp chân visual Gazebo: tiết diện 0.04 m,
-chiều cao suy ra từ đáy mặt bàn tới sàn. Cấu hình trong
-`visualization.yaml/table_legs`; không bổ sung hoặc thay đổi collision geometry.
-
-Bật `Perception bounding boxes (optional)` để xem ảnh nhận diện;
-bật `MoveIt collision scene (optional overlay)` để kiểm tra collision scene.
-Overlay mặc định tắt để không vẽ trùng cube world cũ lên marker camera.
-Có thể tắt RGB-D point cloud nếu che nhãn hoặc muốn giảm tải render.
-
-Node chỉ đọc `scene_visualization` publish `/vision/scene_markers`
-(MarkerArray reliable/transient-local). Geometry lấy từ scene/scenario,
-camera body lấy camera.yaml, nhãn/màu/tham số trong visualization.yaml.
-Trước camera state đầu tiên, các cube được ghi rõ là initial spawn;
-sau đó chỉ hiện object detected và fresh từ `/vision/environment_state`.
-Mất detection/stale sẽ xóa marker cube và zone không được báo empty giả.
-Steady timer kiểm tra timeout ngay cả khi /clock dừng. Không sửa PlanningScene,
-không gọi Gazebo pose, không gửi chuyển động, không đổi LLM/validator/skills.
-
 ## Nội dung demo
 
 Ban đầu, `blue_cube` nằm trong `zone_b`.
