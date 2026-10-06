@@ -1,0 +1,24 @@
+frame_id: base_link
+environment_topic: /vision/environment_state
+marker_topic: /vision/scene_markers
+update_rate_hz: 5.0
+state_timeout_s: 2.0
+label_height_m: 0.025
+object_label_offset_m: 0.045
+zone_label_offset_m: 0.06
+zone_alpha: 0.5
+camera_body_size: [0.06, 0.08, 0.04]
+# Match the four existing Gazebo table leg visuals; no collision changes.
+table_legs:
+  width_m: 0.04
+  edge_inset_xy_m: [0.02, 0.045]
+  floor_z_world_m: 0.0
+  color: [0.2, 0.2, 0.2, 1.0]
+zone_labels:
+  zone_a: 'Zone A - Yellow'
+  zone_b: 'Zone B - Blue'
+  zone_c: 'Zone C - Red'
+zone_colors:
+  zone_a: [1.0, 0.9, 0.0, 1.0]
+  zone_b: [0.1, 0.4, 1.0, 1.0]
+  zone_c: [1.0, 0.1, 0.1, 1.0]

@@ -1,0 +1,133 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ''
+  Global Options:
+    Fixed Frame: base_link
+    Background Color: 38; 42; 48
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 0.1
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/RobotModel
+      Name: UR3 and gripper (TF)
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Depth: 1
+      Visual Enabled: true
+      Collision Enabled: false
+      Alpha: 1
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Table - 5 cubes - zone labels - camera
+      Enabled: true
+      Topic:
+        Value: /vision/scene_markers
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Depth: 1
+    - Class: moveit_rviz_plugin/PlanningScene
+      Name: MoveIt collision scene (optional overlay)
+      Enabled: false
+      Robot Description: robot_description
+      Planning Scene Topic: /monitored_planning_scene
+      Scene Geometry:
+        Show Scene Geometry: true
+        Scene Alpha: 0.4
+      Scene Robot:
+        Show Robot Visual: false
+        Show Robot Collision: false
+    - Class: rviz_default_plugins/Image
+      Name: RGB camera
+      Enabled: true
+      Topic:
+        Value: /camera/image_raw
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 5
+      Transport Hint: raw
+      Normalize Range: true
+    - Class: rviz_default_plugins/Image
+      Name: Depth camera
+      Enabled: true
+      Topic:
+        Value: /camera/depth/image_raw
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 5
+      Transport Hint: raw
+      Normalize Range: true
+    - Class: rviz_default_plugins/Image
+      Name: Perception bounding boxes (optional)
+      Enabled: false
+      Topic:
+        Value: /vision/debug_image
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 5
+      Transport Hint: raw
+    - Class: rviz_default_plugins/DepthCloud
+      Name: RGB-D point cloud
+      Enabled: true
+      Reliability Policy: Best effort
+      Topic Filter: false
+      Depth Map Topic: /camera/depth/image_raw
+      CameraInfo Topic: /camera/camera_info
+      Color Image Topic: /camera/image_raw
+      Depth Map Transport Hint: raw
+      Color Transport Hint: raw
+      Queue Size: 5
+      Auto Size: true
+      Style: Points
+      Color Transformer: RGB8
+      Decay Time: 0
+      Alpha: 0.65
+    - Class: rviz_default_plugins/CameraInfo
+      Name: Camera field of view
+      Enabled: true
+      Topic:
+        Value: /camera/camera_info
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 5
+    - Class: rviz_default_plugins/TF
+      Name: TF frames (optional)
+      Enabled: false
+      Show Names: true
+      Show Axes: true
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Target Frame: base_link
+      Distance: 1.8
+      Pitch: 0.7
+      Yaw: 0.8
+      Focal Point:
+        X: 0.25
+        Y: 0
+        Z: 0.4
+Window Geometry:
+  Width: 1440
+  Height: 900
+  Hide Left Dock: false
+  Hide Right Dock: false

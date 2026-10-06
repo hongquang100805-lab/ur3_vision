@@ -13,6 +13,10 @@
   <depend>geometry_msgs</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>rviz_default_plugins</exec_depend>
+  <exec_depend>moveit_ros_visualization</exec_depend>
   <depend>moveit_msgs</depend>
   <depend>shape_msgs</depend>
   <depend>tf2_ros</depend>

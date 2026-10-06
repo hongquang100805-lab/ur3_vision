@@ -6,12 +6,17 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler, OpaqueFunction
 from launch.event_handlers import OnShutdown
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from ur3_vision_planning.scene_config import load_scene
 
 def launch_setup(context):
+    # Snapshot the parent choice BEFORE the unscoped UR include writes
+    # launch_rviz=false into the context. Keep UR launch configurations alive
+    # for its deferred OnProcessExit callbacks (MoveIt after description ready).
+    dashboard_rviz = LaunchConfiguration('launch_rviz').perform(context)
     pkg_ur_simulation = get_package_share_directory('ur_simulation_gz')
     pkg_ur3_vision = get_package_share_directory('ur3_vision_planning')
     
@@ -51,7 +56,9 @@ def launch_setup(context):
             'controllers_file': os.path.join(
                 pkg_ur3_vision, 'config', 'ur3_gripper_controllers.yaml'
             ),
-            'launch_rviz': LaunchConfiguration('launch_rviz'),
+            # The included launch enables TWO RViz instances (control +
+            # MoveIt). Bài 03 owns exactly one dashboard instead.
+            'launch_rviz': 'false',
             'gazebo_gui': LaunchConfiguration('gazebo_gui'),
             'world_file': world_path,
         }.items(),
@@ -59,6 +66,20 @@ def launch_setup(context):
     
     nodes = [
       ur_sim_moveit,
+      Node(
+        package='rviz2', executable='rviz2', name='vision_rviz',
+        arguments=['-d', os.path.join(pkg_ur3_vision, 'rviz', 'vision.rviz')],
+        parameters=[{'use_sim_time': True}], output='screen',
+        condition=IfCondition(dashboard_rviz),
+        remappings=[('/camera/image_raw', camera['image_topic']),
+                    ('/camera/camera_info', camera['info_topic']),
+                    ('/camera/depth/image_raw', camera['depth_topic'])],
+      ),
+      Node(
+        package='ur3_vision_planning', executable='scene_visualization',
+        name='scene_visualization', output='screen',
+        parameters=[{'use_sim_time': True, 'scenario': scenario}],
+      ),
       Node(
         package='ur3_vision_planning', executable='camera_perception',
         output='screen', parameters=[{'use_sim_time': True}],

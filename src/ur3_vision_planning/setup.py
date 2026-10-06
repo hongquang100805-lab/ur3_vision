@@ -19,6 +19,7 @@ setup(
             glob(os.path.join('urdf', '*.xacro'))),
         (os.path.join('share', package_name, 'worlds'),
             glob(os.path.join('worlds', '*.xacro'))),
+        (os.path.join('share', package_name, 'rviz'), glob(os.path.join('rviz', '*.rviz'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -29,6 +30,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'scene_visualization = ur3_vision_planning.scene_visualization:main',
             'motion_precheck = ur3_vision_planning.motion_precheck:main',
             'natural_language_planner = ur3_vision_planning.natural_language_planner:main',
             'environment_manager_test = ur3_vision_planning.environment_manager:main',
